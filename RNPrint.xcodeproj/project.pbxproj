@@ -1,0 +1,377 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		113258601B99F348005E19FE /* RNPrint.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1132585F1B99F348005E19FE /* RNPrint.h */; };
+		113258621B99F348005E19FE /* RNPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 113258611B99F348005E19FE /* RNPrint.m */; };
+		113258681B99F348005E19FE /* libRNPrint.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1132585C1B99F348005E19FE /* libRNPrint.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		113258691B99F348005E19FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 113258541B99F348005E19FE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1132585B1B99F348005E19FE;
+			remoteInfo = RNPrint;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1132585A1B99F348005E19FE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				113258601B99F348005E19FE /* RNPrint.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1132585C1B99F348005E19FE /* libRNPrint.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNPrint.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1132585F1B99F348005E19FE /* RNPrint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNPrint.h; sourceTree = "<group>"; };
+		113258611B99F348005E19FE /* RNPrint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNPrint.m; sourceTree = "<group>"; };
+		113258671B99F348005E19FE /* RNPrintTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RNPrintTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1132586D1B99F348005E19FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		113258591B99F348005E19FE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		113258641B99F348005E19FE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				113258681B99F348005E19FE /* libRNPrint.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		113258531B99F348005E19FE = {
+			isa = PBXGroup;
+			children = (
+				1132585E1B99F348005E19FE /* RNPrint */,
+				1132586B1B99F348005E19FE /* RNPrintTests */,
+				1132585D1B99F348005E19FE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1132585D1B99F348005E19FE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1132585C1B99F348005E19FE /* libRNPrint.a */,
+				113258671B99F348005E19FE /* RNPrintTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1132585E1B99F348005E19FE /* RNPrint */ = {
+			isa = PBXGroup;
+			children = (
+				1132585F1B99F348005E19FE /* RNPrint.h */,
+				113258611B99F348005E19FE /* RNPrint.m */,
+			);
+			path = RNPrint;
+			sourceTree = "<group>";
+		};
+		1132586B1B99F348005E19FE /* RNPrintTests */ = {
+			isa = PBXGroup;
+			children = (
+				1132586C1B99F348005E19FE /* Supporting Files */,
+			);
+			path = RNPrintTests;
+			sourceTree = "<group>";
+		};
+		1132586C1B99F348005E19FE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1132586D1B99F348005E19FE /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1132585B1B99F348005E19FE /* RNPrint */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 113258701B99F348005E19FE /* Build configuration list for PBXNativeTarget "RNPrint" */;
+			buildPhases = (
+				113258581B99F348005E19FE /* Sources */,
+				113258591B99F348005E19FE /* Frameworks */,
+				1132585A1B99F348005E19FE /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RNPrint;
+			productName = RNPrint;
+			productReference = 1132585C1B99F348005E19FE /* libRNPrint.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		113258661B99F348005E19FE /* RNPrintTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 113258731B99F348005E19FE /* Build configuration list for PBXNativeTarget "RNPrintTests" */;
+			buildPhases = (
+				113258631B99F348005E19FE /* Sources */,
+				113258641B99F348005E19FE /* Frameworks */,
+				113258651B99F348005E19FE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1132586A1B99F348005E19FE /* PBXTargetDependency */,
+			);
+			name = RNPrintTests;
+			productName = RNPrintTests;
+			productReference = 113258671B99F348005E19FE /* RNPrintTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		113258541B99F348005E19FE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = "Blick Labs";
+				TargetAttributes = {
+					1132585B1B99F348005E19FE = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					113258661B99F348005E19FE = {
+						CreatedOnToolsVersion = 6.4;
+					};
+				};
+			};
+			buildConfigurationList = 113258571B99F348005E19FE /* Build configuration list for PBXProject "RNPrint" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 113258531B99F348005E19FE;
+			productRefGroup = 1132585D1B99F348005E19FE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1132585B1B99F348005E19FE /* RNPrint */,
+				113258661B99F348005E19FE /* RNPrintTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		113258651B99F348005E19FE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		113258581B99F348005E19FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				113258621B99F348005E19FE /* RNPrint.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		113258631B99F348005E19FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1132586A1B99F348005E19FE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1132585B1B99F348005E19FE /* RNPrint */;
+			targetProxy = 113258691B99F348005E19FE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1132586E1B99F348005E19FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		1132586F1B99F348005E19FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		113258711B99F348005E19FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		113258721B99F348005E19FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		113258741B99F348005E19FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = RNPrintTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		113258751B99F348005E19FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = RNPrintTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		113258571B99F348005E19FE /* Build configuration list for PBXProject "RNPrint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1132586E1B99F348005E19FE /* Debug */,
+				1132586F1B99F348005E19FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		113258701B99F348005E19FE /* Build configuration list for PBXNativeTarget "RNPrint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				113258711B99F348005E19FE /* Debug */,
+				113258721B99F348005E19FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		113258731B99F348005E19FE /* Build configuration list for PBXNativeTarget "RNPrintTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				113258741B99F348005E19FE /* Debug */,
+				113258751B99F348005E19FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 113258541B99F348005E19FE /* Project object */;
+}
