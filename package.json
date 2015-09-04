@@ -1,0 +1,18 @@
+{
+  "name": "react-native-print",
+  "version": "1.0.0",
+  "description": "Print documents with React Native",
+  "repository": {
+    "type": "git",
+    "url": "github:christopherdro/react-native-print"
+  },
+  "peerDependencies": {
+    "react-native": ">=0.8.0 || 0.8.0-rc || 0.8.0-rc.2 || 0.9.0-rc || 0.10.1"
+  },
+  "keywords": [
+    "react-native",
+    "print"
+  ],
+  "author": "Christopher Dro <casheghian@gmail.com> (http://chris.si)",
+  "license": "MIT"
+}

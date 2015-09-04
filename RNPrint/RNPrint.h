@@ -1,13 +1,10 @@
-//
-//  RNPrint.h
-//  RNPrint
-//
+
 //  Created by Christopher on 9/4/15.
-//  Copyright (c) 2015 Blick Labs. All rights reserved.
-//
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "RCTView.h"
+#import "RCTBridgeModule.h"
 
-@interface RNPrint : NSObject
+@interface RNPrint : RCTView <RCTBridgeModule, UIPrintInteractionControllerDelegate>
 
 @end
