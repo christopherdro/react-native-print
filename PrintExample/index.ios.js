@@ -20,17 +20,15 @@ var {
 var PrintExample = React.createClass({
   componentDidMount() {
     RNHTMLtoPDF.convert({
-      html: '<!DOCTYPE html><html><body><h1>My First Web Page</h1> <p>My first paragraph.</p></body> </html>',
+      html: '<!DOCTYPE html><html><body><h1>Test Print</h1> <p>My first paragraph.</p></body> </html>',
     }).then((filePath) => {
-      console.log('FilePath', filePath);
       RNPrint.print(filePath).then((jobName) => {
         console.log(`Printing ${jobName} complete!`);
       });
     });
-  
   },
 
-  render: function() {
+  render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
