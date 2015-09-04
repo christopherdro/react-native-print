@@ -14,7 +14,7 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* PrintExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PrintExampleTests.m */; };
-		118E5D7E1B9A0B870047A4FC /* libRNPrint.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 118E5D7B1B9A0B7C0047A4FC /* libRNPrint.a */; };
+		1136F1D01B9A33FE00C87F62 /* libRNPrint.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136F1CD1B9A33F100C87F62 /* libRNPrint.a */; };
 		11BE393C1B9A15440006961C /* libRNHTMLtoPDF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BE39371B9A153F0006961C /* libRNHTMLtoPDF.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
@@ -70,16 +70,16 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = PrintExample;
 		};
-		118E5D7A1B9A0B7C0047A4FC /* PBXContainerItemProxy */ = {
+		1136F1CC1B9A33F100C87F62 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 118E5D6B1B9A0B7C0047A4FC /* RNPrint.xcodeproj */;
+			containerPortal = 1136F1BB1B9A33F100C87F62 /* RNPrint.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 1132585C1B99F348005E19FE;
 			remoteInfo = RNPrint;
 		};
-		118E5D7C1B9A0B7C0047A4FC /* PBXContainerItemProxy */ = {
+		1136F1CE1B9A33F100C87F62 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 118E5D6B1B9A0B7C0047A4FC /* RNPrint.xcodeproj */;
+			containerPortal = 1136F1BB1B9A33F100C87F62 /* RNPrint.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 113258671B99F348005E19FE;
 			remoteInfo = RNPrintTests;
@@ -145,7 +145,7 @@
 		00E356EE1AD99517003FC87E /* PrintExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrintExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* PrintExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrintExampleTests.m; sourceTree = "<group>"; };
-		118E5D6B1B9A0B7C0047A4FC /* RNPrint.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNPrint.xcodeproj; path = ../../RNPrint/RNPrint.xcodeproj; sourceTree = "<group>"; };
+		1136F1BB1B9A33F100C87F62 /* RNPrint.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNPrint.xcodeproj; path = "../../../bs/node_modules/react-native-print/RNPrint.xcodeproj"; sourceTree = "<group>"; };
 		11BE39271B9A153F0006961C /* RNHTMLtoPDF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNHTMLtoPDF.xcodeproj; path = "../node_modules/react-native-html-to-pdf/RNHTMLtoPDF.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -173,8 +173,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1136F1D01B9A33FE00C87F62 /* libRNPrint.a in Frameworks */,
 				11BE393C1B9A15440006961C /* libRNHTMLtoPDF.a in Frameworks */,
-				118E5D7E1B9A0B870047A4FC /* libRNPrint.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -248,11 +248,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		118E5D6C1B9A0B7C0047A4FC /* Products */ = {
+		1136F1BC1B9A33F100C87F62 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				118E5D7B1B9A0B7C0047A4FC /* libRNPrint.a */,
-				118E5D7D1B9A0B7C0047A4FC /* RNPrintTests.xctest */,
+				1136F1CD1B9A33F100C87F62 /* libRNPrint.a */,
+				1136F1CF1B9A33F100C87F62 /* RNPrintTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -340,8 +340,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				1136F1BB1B9A33F100C87F62 /* RNPrint.xcodeproj */,
 				11BE39271B9A153F0006961C /* RNHTMLtoPDF.xcodeproj */,
-				118E5D6B1B9A0B7C0047A4FC /* RNPrint.xcodeproj */,
 				13B07FAE1A68108700A75B9A /* PrintExample */,
 				00E356EF1AD99517003FC87E /* PrintExampleTests */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -470,8 +470,8 @@
 					ProjectRef = 11BE39271B9A153F0006961C /* RNHTMLtoPDF.xcodeproj */;
 				},
 				{
-					ProductGroup = 118E5D6C1B9A0B7C0047A4FC /* Products */;
-					ProjectRef = 118E5D6B1B9A0B7C0047A4FC /* RNPrint.xcodeproj */;
+					ProductGroup = 1136F1BC1B9A33F100C87F62 /* Products */;
+					ProjectRef = 1136F1BB1B9A33F100C87F62 /* RNPrint.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -518,18 +518,18 @@
 			remoteRef = 00C302E31ABCB9EE00DB3ED1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		118E5D7B1B9A0B7C0047A4FC /* libRNPrint.a */ = {
+		1136F1CD1B9A33F100C87F62 /* libRNPrint.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRNPrint.a;
-			remoteRef = 118E5D7A1B9A0B7C0047A4FC /* PBXContainerItemProxy */;
+			remoteRef = 1136F1CC1B9A33F100C87F62 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		118E5D7D1B9A0B7C0047A4FC /* RNPrintTests.xctest */ = {
+		1136F1CF1B9A33F100C87F62 /* RNPrintTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = RNPrintTests.xctest;
-			remoteRef = 118E5D7C1B9A0B7C0047A4FC /* PBXContainerItemProxy */;
+			remoteRef = 1136F1CE1B9A33F100C87F62 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		11BE39371B9A153F0006961C /* libRNHTMLtoPDF.a */ = {
