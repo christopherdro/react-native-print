@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "react-native": "^0.10.1",
-    "react-native-html-to-pdf": "^0.1.0"
+    "react-native-html-to-pdf": "^0.1.0",
+    "react-native-print": "^0.1.1"
   }
 }
