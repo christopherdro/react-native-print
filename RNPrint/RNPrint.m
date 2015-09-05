@@ -5,6 +5,11 @@
 
 @implementation RNPrint
 
+- (dispatch_queue_t)methodQueue
+{
+    return dispatch_get_main_queue();
+}
+
 RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(print:(NSString *)filePath
@@ -12,7 +17,6 @@ RCT_EXPORT_METHOD(print:(NSString *)filePath
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
     NSData *printData = [NSData dataWithContentsOfFile:filePath];
-    
     UIPrintInteractionController *printInteractionController = [UIPrintInteractionController sharedPrintController];
     printInteractionController.delegate = self;
     
