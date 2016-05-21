@@ -12,19 +12,16 @@ Print documents using React Native.
 ## Usage
 ```javascript
 
-var React = require('react-native');
-
-var {
+import React from 'react';
+import {
   AlertIOS,
   AppRegistry,
-  NativeModules: {
-    RNPrint,
-  }
   StyleSheet,
   Text,
   TouchableHighlight,
   View,
-} = React;
+} from 'react-native';
+import {RNPrint} from 'NativeModules';
 
 var Example = React.createClass({
 
