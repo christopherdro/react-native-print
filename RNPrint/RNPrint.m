@@ -49,6 +49,9 @@ RCT_EXPORT_METHOD(print:(NSString *)filePath
 
 -(UIViewController*)printInteractionControllerParentViewController:(UIPrintInteractionController*)printInteractionController  {
     UIViewController *result = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    while (result.presentedViewController) {
+        result = result.presentedViewController;
+    }
     return result;
 }
 
