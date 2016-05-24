@@ -2,6 +2,7 @@
 //  Created by Christopher Dro on 9/4/15.
 
 #import "RNPrint.h"
+#import "RCTUtils.h"
 
 @implementation RNPrint
 
@@ -36,7 +37,7 @@ RCT_EXPORT_METHOD(print:(NSString *)filePath
     ^(UIPrintInteractionController *printController, BOOL completed, NSError *error) {
         if (!completed && error) {
             NSLog(@"Printing could not complete because of error: %@", error);
-            reject(error);
+            reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(error.description));
         } else {
             resolve(printInfo.jobName);
         }
