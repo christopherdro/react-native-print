@@ -39,7 +39,7 @@ RCT_EXPORT_METHOD(print:(NSString *)filePath
             NSLog(@"Printing could not complete because of error: %@", error);
             reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(error.description));
         } else {
-            resolve(printInfo.jobName);
+            resolve(printInfo.jobName, completed);
         }
     };
     
