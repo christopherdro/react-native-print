@@ -11,7 +11,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.bridge.JavaScriptModule;
 
-public class RNPrint implements ReactPackage {
+public class RNPrintPackage implements ReactPackage {
 
   @Override
   public List<NativeModule> createNativeModules(

@@ -8,11 +8,34 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
+  NativeModules,
   Text,
   View
 } from 'react-native';
 
+
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
+
+const { RNPrint } = NativeModules;
+
 export default class RNPrintExample extends Component {
+
+  async componentDidMount() {
+    let options = {
+      html: '<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3>',
+      fileName: 'test',
+      base64: true,
+    };
+
+    try {
+      const results = await RNHTMLtoPDF.convert(options)
+      const jobName = await RNPrint.print(results.filePath)
+      console.log(`Printing ${jobName} complete!`)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -20,11 +43,11 @@ export default class RNPrintExample extends Component {
           Welcome to React Native!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.android.js
+          To get started, edit index.ios.js
         </Text>
         <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
+          Press Cmd+R to reload,{'\n'}
+          Cmd+D or shake for dev menu
         </Text>
       </View>
     );
