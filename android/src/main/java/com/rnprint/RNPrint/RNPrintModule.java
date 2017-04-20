@@ -168,10 +168,6 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                         @Override
                         public void onFinish() {
                             mWrappedInstance.onFinish();
-                            // Intercept the finish call to know when printing is done
-                            // and destroy the WebView as it is expensive to keep around.
-                            mWebView.destroy();
-                            mWebView = null;
                         }
                     };
                     // Pass in the ViewView's document adapter.
