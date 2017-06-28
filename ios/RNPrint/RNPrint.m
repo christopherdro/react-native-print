@@ -46,6 +46,39 @@ RCT_EXPORT_METHOD(print:(NSString *)filePath
     [printInteractionController presentAnimated:YES completionHandler:completionHandler];
 }
 
+RCT_EXPORT_METHOD(printhtml:(NSString *)htmlString
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    UIPrintInteractionController *printInteractionController = [UIPrintInteractionController sharedPrintController];
+    printInteractionController.delegate = self;
+    
+    // Create printing info
+    UIPrintInfo *printInfo = [UIPrintInfo printInfo];
+    
+    printInfo.outputType = UIPrintInfoOutputGeneral;
+    printInfo.duplex = UIPrintInfoDuplexLongEdge;
+    
+    printInteractionController.printInfo = printInfo;
+    printInteractionController.showsPageRange = YES;
+    
+    UIMarkupTextPrintFormatter *formatter = [[UIMarkupTextPrintFormatter alloc] initWithMarkupText:htmlString];
+
+    printInteractionController.printFormatter = formatter;
+
+    // Completion handler
+    void (^completionHandler)(UIPrintInteractionController *, BOOL, NSError *) =
+    ^(UIPrintInteractionController *printController, BOOL completed, NSError *error) {
+        if (!completed && error) {
+            NSLog(@"Printing could not complete because of error: %@", error);
+            reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(error.description));
+        } else {
+            resolve(completed ? printInfo.jobName : nil);
+        }
+    };
+    
+    [printInteractionController presentAnimated:YES completionHandler:completionHandler];
+}
+
 #pragma mark - UIPrintInteractionControllerDelegate
 
 -(UIViewController*)printInteractionControllerParentViewController:(UIPrintInteractionController*)printInteractionController  {
