@@ -17,7 +17,18 @@ RCT_EXPORT_METHOD(print:(NSString *)filePath
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
-    NSData *printData = [NSData dataWithContentsOfFile:filePath];
+    NSData *printData;
+    BOOL isValidURL = NO;
+    NSURL *candidateURL = [NSURL URLWithString:filePath];
+    if (candidateURL && candidateURL.scheme && candidateURL.host)
+        isValidURL = YES;
+
+    if(isValidURL) {
+      // TODO: This needs updated to use NSURLSession dataTaskWithURL:completionHandler:
+      printData = [NSData dataWithContentsOfURL:candidateURL];
+    } else {
+      printData = [NSData dataWithContentsOfFile:filePath];
+    }
     UIPrintInteractionController *printInteractionController = [UIPrintInteractionController sharedPrintController];
     printInteractionController.delegate = self;
     
