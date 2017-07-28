@@ -16,6 +16,7 @@ import android.print.PrintDocumentAdapter;
 import android.print.PrintDocumentInfo;
 import android.print.PrintManager;
 import android.util.Log;
+import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -36,6 +37,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 
 
 /**
@@ -44,7 +46,6 @@ import java.io.IOException;
 public class RNPrintModule extends ReactContextBaseJavaModule {
 
   ReactApplicationContext reactContext;
-
   public RNPrintModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
@@ -67,28 +68,25 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
       PrintDocumentAdapter pda = new PrintDocumentAdapter() {
 
         @Override
-        public void onWrite(PageRange[] pages, ParcelFileDescriptor destination, CancellationSignal cancellationSignal, WriteResultCallback callback){
-          InputStream input = null;
-          OutputStream output = null;
+        public void onWrite(PageRange[] pages, final ParcelFileDescriptor destination, CancellationSignal cancellationSignal, final WriteResultCallback callback){
 
           try {
-            input = new FileInputStream(path);
-            output = new FileOutputStream(destination.getFileDescriptor());
+            boolean isUrl = URLUtil.isValidUrl(path);
 
-            byte[] buf = new byte[1024];
-            int bytesRead;
-
-            while ((bytesRead = input.read(buf)) > 0) {
-                 output.write(buf, 0, bytesRead);
-            }
-
-            callback.onWriteFinished(new PageRange[]{PageRange.ALL_PAGES});
-
-            try {
-                input.close();
-                output.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(isUrl) {
+              new Thread(new Runnable() {
+                public void run() {
+                  try {
+                    InputStream input = new URL(path).openStream();
+                    loadAndClose(destination, callback, input);
+                  } catch (Exception e) {
+                    e.printStackTrace();
+                  }
+                }
+              }).start();
+            } else {
+              InputStream input = new FileInputStream(path);
+              loadAndClose(destination, callback, input);
             }
 
           } catch (FileNotFoundException ee){
@@ -124,7 +122,28 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
 
   }
 
-  @ReactMethod
+    private void loadAndClose(ParcelFileDescriptor destination, PrintDocumentAdapter.WriteResultCallback callback, InputStream input) throws IOException {
+        OutputStream output = null;
+        output = new FileOutputStream(destination.getFileDescriptor());
+
+        byte[] buf = new byte[1024];
+        int bytesRead;
+
+        while ((bytesRead = input.read(buf)) > 0) {
+             output.write(buf, 0, bytesRead);
+        }
+
+        callback.onWriteFinished(new PageRange[]{PageRange.ALL_PAGES});
+
+        try {
+            input.close();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @ReactMethod
   public void printhtml(final String html, final Promise promise) {
 
     final String jobName = "Document";
