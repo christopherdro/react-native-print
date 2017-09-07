@@ -61,7 +61,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import {RNPrint} from 'NativeModules';
+import RNPrint from 'react-native-print';
 
 var Example = React.createClass({
 
