@@ -8,15 +8,13 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
-  NativeModules,
   Text,
   View
 } from 'react-native';
 
 
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
-
-const { RNPrint } = NativeModules;
+import RNPrint from 'react-native-print';
 
 export default class RNPrintExample extends Component {
 
