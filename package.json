@@ -2,6 +2,14 @@
   "name": "react-native-print",
   "version": "0.3.0",
   "description": "Print documents with React Native",
+  "main": "index.js",
+  "keywords": [
+    "react-native",
+    "print",
+    "ndef",
+    "react",
+    "native"
+  ],
   "repository": {
     "type": "git",
     "url": "github:christopherdro/react-native-print"
