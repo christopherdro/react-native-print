@@ -1,4 +1,4 @@
-package com.rnprint.RNPrint;
+package com.christopherdro.RNPrint;
 
 import java.util.Arrays;
 import java.util.ArrayList;

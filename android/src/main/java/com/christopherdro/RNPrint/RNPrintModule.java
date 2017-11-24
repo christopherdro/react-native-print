@@ -1,4 +1,4 @@
-package com.rnprint.RNPrint;
+package com.christopherdro.RNPrint;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -33,34 +33,34 @@ import java.net.URL;
  * NativeModule that allows JS to open emails sending apps chooser.
  */
 public class RNPrintModule extends ReactContextBaseJavaModule {
-    
+
     ReactApplicationContext reactContext;
     final String jobName = "Document";
-    
-    
+
+
     public RNPrintModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
     }
-    
+
     @Override
     public String getName() {
         return "RNPrint";
     }
-    
+
     WebView mWebView;
-    
+
     @ReactMethod
     public void print(final ReadableMap options, final Promise promise) {
-        
+
         final String html = options.hasKey("html") ? options.getString("html") : null;
         final String filePath = options.hasKey("filePath") ? options.getString("filePath") : null;
-        
+
         if ((html == null && filePath == null) || (html != null && filePath != null)) {
             promise.reject(getName(), "Must provide either `html` or `filePath`.  Both are either missing or passed together");
             return;
         }
-        
+
         if (html != null) {
             try {
                 UiThreadUtil.runOnUiThread(new Runnable() {
@@ -72,7 +72,7 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                                 return false;
                             }
-                            
+
                             @Override
                             public void onPageFinished(WebView view, String url) {
                                 // Get the print manager.
@@ -109,9 +109,9 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                                 promise.resolve(jobName);
                             }
                         });
-                        
+
                         webView.loadDataWithBaseURL(null, html, "text/HTML", "UTF-8", null);
-                        
+
                         // Keep a reference to WebView object until you pass the PrintDocumentAdapter
                         // to the PrintManager
                         mWebView = webView;
@@ -122,15 +122,15 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
             }
         } else {
             try {
-                
+
                 PrintManager printManager = (PrintManager) getCurrentActivity().getSystemService(Context.PRINT_SERVICE);
                 PrintDocumentAdapter pda = new PrintDocumentAdapter() {
-                    
+
                     @Override
                     public void onWrite(PageRange[] pages, final ParcelFileDescriptor destination, CancellationSignal cancellationSignal, final WriteResultCallback callback){
                         try {
                             boolean isUrl = URLUtil.isValidUrl(filePath);
-                            
+
                             if (isUrl) {
                                 new Thread(new Runnable() {
                                     public void run() {
@@ -146,7 +146,7 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                                 InputStream input = new FileInputStream(filePath);
                                 loadAndClose(destination, callback, input);
                             }
-                            
+
                         } catch (FileNotFoundException ee){
                             promise.reject(getName(), "File not found");
                         } catch (Exception e) {
@@ -154,44 +154,44 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                             promise.reject(getName(), e);
                         }
                     }
-                    
+
                     @Override
                     public void onLayout(PrintAttributes oldAttributes, PrintAttributes newAttributes, CancellationSignal cancellationSignal, LayoutResultCallback callback, Bundle extras){
-                        
+
                         if (cancellationSignal.isCanceled()) {
                             callback.onLayoutCancelled();
                             return;
                         }
-                        
+
                         PrintDocumentInfo pdi = new PrintDocumentInfo.Builder(jobName).setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT).build();
-                        
+
                         callback.onLayoutFinished(pdi, true);
                     }
                 };
-                
+
                 printManager.print(jobName, pda, null);
                 promise.resolve(jobName);
-                
+
             } catch (Exception e) {
                 promise.reject(getName(), e);
             }
         }
     }
-    
-    
+
+
     private void loadAndClose(ParcelFileDescriptor destination, PrintDocumentAdapter.WriteResultCallback callback, InputStream input) throws IOException {
         OutputStream output = null;
         output = new FileOutputStream(destination.getFileDescriptor());
-        
+
         byte[] buf = new byte[1024];
         int bytesRead;
-        
+
         while ((bytesRead = input.read(buf)) > 0) {
             output.write(buf, 0, bytesRead);
         }
-        
+
         callback.onWriteFinished(new PageRange[]{PageRange.ALL_PAGES});
-        
+
         try {
             input.close();
             output.close();
@@ -199,5 +199,5 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
             e.printStackTrace();
         }
     }
-    
+
 }

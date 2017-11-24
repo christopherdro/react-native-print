@@ -1,6 +1,6 @@
 package com.rnprintexample;
 import com.christopherdro.htmltopdf.RNHTMLtoPDFPackage;
-import com.rnprint.RNPrint.RNPrintPackage;
+import com.christopherdro.RNPrint.RNPrintPackage;
 
 import android.app.Application;
 
