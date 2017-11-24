@@ -3304,9 +3304,9 @@ react-native-html-to-pdf@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-native-html-to-pdf/-/react-native-html-to-pdf-0.5.0.tgz#a42ada99a3d7edafa0eb06eaae08818d4fc79347"
 
-react-native-print@0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-print/-/react-native-print-0.3.0.tgz#870082cdd14cc1a064cf0fa3b7460932cb032768"
+react-native-print@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-print/-/react-native-print-0.4.0.tgz#34a898c02bd1d4a2edd3e331bfb9230e058a8043"
 
 react-native@0.50.4:
   version "0.50.4"
