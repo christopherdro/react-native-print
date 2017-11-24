@@ -15,11 +15,12 @@ import {
 
 
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
+// import RNPrint from 'react-native-print';
 
 const { RNPrint } = NativeModules;
 
 export default class RNPrintExample extends Component {
-  
+
   async componentDidMount() {
     let options = {
       html: '<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3>',
@@ -27,9 +28,20 @@ export default class RNPrintExample extends Component {
       base64: true,
     };
 
+    // const selectedPrinter = await RNPrint.selectPrinter()
+    // console.log('SelectedPrinter', selectedPrinter.url)
+
     try {
       const results = await RNHTMLtoPDF.convert(options)
-      const jobName = await RNPrint.print(results.filePath)
+      const jobName = await RNPrint.print({
+        filePath: results.filePath,
+        // printerURL: 'selectedPrinter.url',
+        html: '<h1>CUSTOM HTML!!!</h1>'
+      })
+
+      // const jobName = await RNPrint.printhtml('<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading !!!</h3>')
+      // const jobName = await RNPrint.print(results.filePath)
+
       console.log(`Printing ${jobName} complete!`)
     } catch (err) {
       console.error(err)
@@ -72,5 +84,3 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
-
-AppRegistry.registerComponent('RNPrintExample', () => RNPrintExample);

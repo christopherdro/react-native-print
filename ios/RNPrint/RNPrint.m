@@ -2,6 +2,7 @@
 //  Created by Christopher Dro on 9/4/15.
 
 #import "RNPrint.h"
+#import <React/RCTConvert.h>
 #import <React/RCTUtils.h>
 
 @implementation RNPrint
@@ -13,11 +14,40 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(print:(NSString *)filePath
+RCT_EXPORT_METHOD(print:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
-    NSData *printData = [NSData dataWithContentsOfFile:filePath];
+    if (options[@"filePath"]){
+        _filePath = [RCTConvert NSString:options[@"filePath"]];
+    }
+    
+    if (options[@"html"]){
+        _htmlString = [RCTConvert NSString:options[@"html"]];
+    }
+    
+    if (options[@"printerURL"]){
+        _printerURL = [NSURL URLWithString:[RCTConvert NSString:options[@"printerURL"]]];
+        _pickedPrinter = [UIPrinter printerWithURL:_printerURL];
+    }
+    
+    if ((_filePath && _htmlString) || (_filePath == nil && _htmlString == nil)) {
+        reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Must provide either `html` or `filePath`. Both are either missing or passed together"));
+    }
+    
+    NSData *printData;
+    BOOL isValidURL = NO;
+    NSURL *candidateURL = [NSURL URLWithString: _filePath];
+    if (candidateURL && candidateURL.scheme && candidateURL.host)
+        isValidURL = YES;
+    
+    if (isValidURL) {
+        // TODO: This needs updated to use NSURLSession dataTaskWithURL:completionHandler:
+        printData = [NSData dataWithContentsOfURL:candidateURL];
+    } else {
+        printData = [NSData dataWithContentsOfFile: _filePath];
+    }
+    
     UIPrintInteractionController *printInteractionController = [UIPrintInteractionController sharedPrintController];
     printInteractionController.delegate = self;
     
@@ -25,12 +55,18 @@ RCT_EXPORT_METHOD(print:(NSString *)filePath
     UIPrintInfo *printInfo = [UIPrintInfo printInfo];
     
     printInfo.outputType = UIPrintInfoOutputGeneral;
-    printInfo.jobName = [filePath lastPathComponent];
+    printInfo.jobName = [_filePath lastPathComponent];
     printInfo.duplex = UIPrintInfoDuplexLongEdge;
     
     printInteractionController.printInfo = printInfo;
     printInteractionController.showsPageRange = YES;
-    printInteractionController.printingItem = printData;
+    
+    if (_htmlString) {
+        UIMarkupTextPrintFormatter *formatter = [[UIMarkupTextPrintFormatter alloc] initWithMarkupText:_htmlString];
+        printInteractionController.printFormatter = formatter;
+    } else {
+        printInteractionController.printingItem = printData;
+    }
     
     // Completion handler
     void (^completionHandler)(UIPrintInteractionController *, BOOL, NSError *) =
@@ -43,7 +79,38 @@ RCT_EXPORT_METHOD(print:(NSString *)filePath
         }
     };
     
-    [printInteractionController presentAnimated:YES completionHandler:completionHandler];
+    if (_pickedPrinter) {
+        [printInteractionController printToPrinter:_pickedPrinter completionHandler:completionHandler];
+    } else {
+        [printInteractionController presentAnimated:YES completionHandler:completionHandler];
+    }
+}
+
+
+RCT_EXPORT_METHOD(selectPrinter:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    
+    UIPrinterPickerController *printPicker = [UIPrinterPickerController printerPickerControllerWithInitiallySelectedPrinter: _pickedPrinter];
+    
+    printPicker.delegate = self;
+    
+    [printPicker presentAnimated:YES completionHandler:
+     ^(UIPrinterPickerController *printerPicker, BOOL userDidSelect, NSError *error) {
+         if (!userDidSelect && error) {
+             NSLog(@"Printing could not complete because of error: %@", error);
+             reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(error.description));
+         } else {
+             [UIPrinterPickerController printerPickerControllerWithInitiallySelectedPrinter:printerPicker.selectedPrinter];
+             if (userDidSelect) {
+                 _pickedPrinter = printerPicker.selectedPrinter;
+                 NSDictionary *printerDetails = @{
+                                                  @"name" : _pickedPrinter.displayName,
+                                                  @"url" : _pickedPrinter.URL.absoluteString,
+                                                  };
+                 resolve(printerDetails);
+             }
+         }
+     }];
 }
 
 #pragma mark - UIPrintInteractionControllerDelegate
