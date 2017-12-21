@@ -10,4 +10,5 @@
 @property NSString *filePath;
 @property NSString *htmlString;
 @property NSURL *printerURL;
+@property (nonatomic, assign) BOOL isLandscape;
 @end

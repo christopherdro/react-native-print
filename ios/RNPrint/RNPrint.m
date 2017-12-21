@@ -31,6 +31,10 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
         _pickedPrinter = [UIPrinter printerWithURL:_printerURL];
     }
     
+    if(options[@"isLandscape"]) {
+        _isLandscape = [[RCTConvert NSNumber:options[@"isLandscape"]] boolValue];
+    }
+    
     if ((_filePath && _htmlString) || (_filePath == nil && _htmlString == nil)) {
         reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Must provide either `html` or `filePath`. Both are either missing or passed together"));
     }
@@ -57,6 +61,7 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
     printInfo.outputType = UIPrintInfoOutputGeneral;
     printInfo.jobName = [_filePath lastPathComponent];
     printInfo.duplex = UIPrintInfoDuplexLongEdge;
+    printInfo.orientation = _isLandscape? UIPrintInfoOrientationLandscape: UIPrintInfoOrientationPortrait;
     
     printInteractionController.printInfo = printInfo;
     printInteractionController.showsPageRange = YES;
