@@ -48,8 +48,8 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
         printData = [NSData dataWithContentsOfFile: _filePath];
     }
     
-    if(![UIPrintInteractionController canPrintData:printData]) {
-        reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Unable to print this data"));
+    if(!_htmlString && ![UIPrintInteractionController canPrintData:printData]) {
+        reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Unable to print this filePath"));
         return;
     }
     
