@@ -81,7 +81,10 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
     
     if (_pickedPrinter) {
         [printInteractionController printToPrinter:_pickedPrinter completionHandler:completionHandler];
-    } else {
+    } else if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) { // iPad
+        UIView *view = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
+        [printInteractionController presentFromRect:view.frame inView:view animated:YES completionHandler:completionHandler];
+    } else { // iPhone
         [printInteractionController presentAnimated:YES completionHandler:completionHandler];
     }
 }
@@ -94,23 +97,30 @@ RCT_EXPORT_METHOD(selectPrinter:(RCTPromiseResolveBlock)resolve
     
     printPicker.delegate = self;
     
-    [printPicker presentAnimated:YES completionHandler:
-     ^(UIPrinterPickerController *printerPicker, BOOL userDidSelect, NSError *error) {
-         if (!userDidSelect && error) {
-             NSLog(@"Printing could not complete because of error: %@", error);
-             reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(error.description));
-         } else {
-             [UIPrinterPickerController printerPickerControllerWithInitiallySelectedPrinter:printerPicker.selectedPrinter];
-             if (userDidSelect) {
-                 _pickedPrinter = printerPicker.selectedPrinter;
-                 NSDictionary *printerDetails = @{
-                                                  @"name" : _pickedPrinter.displayName,
-                                                  @"url" : _pickedPrinter.URL.absoluteString,
-                                                  };
-                 resolve(printerDetails);
-             }
-         }
-     }];
+    void (^completionHandler)(UIPrinterPickerController *, BOOL, NSError *) =
+    ^(UIPrinterPickerController *printerPicker, BOOL userDidSelect, NSError *error) {
+        if (!userDidSelect && error) {
+            NSLog(@"Printing could not complete because of error: %@", error);
+            reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(error.description));
+        } else {
+            [UIPrinterPickerController printerPickerControllerWithInitiallySelectedPrinter:printerPicker.selectedPrinter];
+            if (userDidSelect) {
+                _pickedPrinter = printerPicker.selectedPrinter;
+                NSDictionary *printerDetails = @{
+                                                 @"name" : _pickedPrinter.displayName,
+                                                 @"url" : _pickedPrinter.URL.absoluteString,
+                                                 };
+                resolve(printerDetails);
+            }
+        }
+    };
+    
+    if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) { // iPad
+        UIView *view = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
+        [printPicker presentFromRect:view.frame inView:view animated:YES completionHandler:completionHandler];
+    } else { // iPhone
+        [printPicker presentAnimated:YES completionHandler:completionHandler];
+    }
 }
 
 #pragma mark - UIPrintInteractionControllerDelegate
