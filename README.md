@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
 | `html` | `string` |  HTML string to print
 | `fileName` | `string` | Custom Filename excluding .pdf extension or remote file url NOTE: iOS only supports https protocols
 | `printerURL` | `string` | **iOS Only:** URL returned from `selectPrinterMethod()`
+| `isLandscape` | `bool` | Landscape print; default value is false 
 
 
 ## selectPrinter()
