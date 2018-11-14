@@ -155,4 +155,9 @@ RCT_EXPORT_METHOD(selectPrinter:(RCTPromiseResolveBlock)resolve
 
 -(void)printInteractionControllerDidFinishJob:(UIPrintInteractionController*)printInteractionController {}
 
++(BOOL)requiresMainQueueSetup
+{
+  return YES;
+}
+
 @end
