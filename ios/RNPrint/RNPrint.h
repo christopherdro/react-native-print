@@ -7,7 +7,7 @@
 
 @interface RNPrint : RCTView <RCTBridgeModule, UIPrintInteractionControllerDelegate, UIPrinterPickerControllerDelegate>
 @property UIPrinter *pickedPrinter;
-@property NSString *filePath;
+@property NSString *uri;
 @property NSString *htmlString;
 @property NSURL *printerURL;
 @property (nonatomic, assign) BOOL isLandscape;

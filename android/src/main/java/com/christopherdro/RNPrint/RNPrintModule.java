@@ -54,11 +54,11 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
     public void print(final ReadableMap options, final Promise promise) {
 
         final String html = options.hasKey("html") ? options.getString("html") : null;
-        final String filePath = options.hasKey("filePath") ? options.getString("filePath") : null;
+        final String uri = options.hasKey("uri") ? options.getString("uri") : null;
         final boolean isLandscape = options.hasKey("isLandscape") ? options.getBoolean("isLandscape") : false;
 
-        if ((html == null && filePath == null) || (html != null && filePath != null)) {
-            promise.reject(getName(), "Must provide either `html` or `filePath`.  Both are either missing or passed together");
+        if ((html == null && uri == null) || (html != null && uri != null)) {
+            promise.reject(getName(), "Must provide either `html` or `uri`.  Both are either missing or passed together");
             return;
         }
 
@@ -130,13 +130,13 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                     @Override
                     public void onWrite(PageRange[] pages, final ParcelFileDescriptor destination, CancellationSignal cancellationSignal, final WriteResultCallback callback){
                         try {
-                            boolean isUrl = URLUtil.isValidUrl(filePath);
+                            boolean isUrl = URLUtil.isValidUrl(uri) || URLUtil.isDataUrl(uri);
 
                             if (isUrl) {
                                 new Thread(new Runnable() {
                                     public void run() {
                                         try {
-                                            InputStream input = new URL(filePath).openStream();
+                                            InputStream input = new URL(uri).openStream();
                                             loadAndClose(destination, callback, input);
                                         } catch (Exception e) {
                                             e.printStackTrace();
@@ -144,7 +144,7 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                                     }
                                 }).start();
                             } else {
-                                InputStream input = new FileInputStream(filePath);
+                                InputStream input = new FileInputStream(uri);
                                 loadAndClose(destination, callback, input);
                             }
 

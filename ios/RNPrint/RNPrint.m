@@ -18,7 +18,7 @@ RCT_EXPORT_MODULE();
         resolver:(RCTPromiseResolveBlock)resolve
         rejecter:(RCTPromiseRejectBlock)reject {
     if(!_htmlString && ![UIPrintInteractionController canPrintData:data]) {
-        reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Unable to print this filePath"));
+        reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Unable to print this uri"));
         return;
     }
     
@@ -29,7 +29,7 @@ RCT_EXPORT_MODULE();
     UIPrintInfo *printInfo = [UIPrintInfo printInfo];
     
     printInfo.outputType = UIPrintInfoOutputGeneral;
-    printInfo.jobName = [_filePath lastPathComponent];
+    printInfo.jobName = [_uri lastPathComponent];
     printInfo.duplex = UIPrintInfoDuplexLongEdge;
     printInfo.orientation = _isLandscape? UIPrintInfoOrientationLandscape: UIPrintInfoOrientationPortrait;
     
@@ -68,10 +68,10 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
-    if (options[@"filePath"]){
-        _filePath = [RCTConvert NSString:options[@"filePath"]];
+    if (options[@"uri"]){
+        _uri = [RCTConvert NSString:options[@"uri"]];
     } else {
-        _filePath = nil;
+        _uri = nil;
     }
     
     if (options[@"html"]){
@@ -89,26 +89,26 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
         _isLandscape = [[RCTConvert NSNumber:options[@"isLandscape"]] boolValue];
     }
     
-    if ((_filePath && _htmlString) || (_filePath == nil && _htmlString == nil)) {
-        reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Must provide either `html` or `filePath`. Both are either missing or passed together"));
+    if ((_uri && _htmlString) || (_uri == nil && _htmlString == nil)) {
+        reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Must provide either `html` or `uri`. Both are either missing or passed together"));
     }
     
     __block NSData *printData;
     BOOL isValidURL = NO;
-    NSURL *candidateURL = [NSURL URLWithString: _filePath];
-    if (candidateURL && candidateURL.scheme && candidateURL.host)
+    NSURL *candidateURL = [NSURL URLWithString: _uri];
+    if (candidateURL && candidateURL.scheme)
         isValidURL = YES;
     
     if (isValidURL) {
         NSURLSession *session = [NSURLSession sharedSession];
-        NSURLSessionDataTask *dataTask = [session dataTaskWithURL:[NSURL URLWithString:_filePath] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSURLSessionDataTask *dataTask = [session dataTaskWithURL:[NSURL URLWithString:_uri] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self launchPrint:data resolver:resolve rejecter:reject];
             });
         }];
         [dataTask resume];
     } else {
-        printData = [NSData dataWithContentsOfFile: _filePath];
+        printData = [NSData dataWithContentsOfFile: _uri];
         [self launchPrint:printData resolver:resolve rejecter:reject];
     }
 }
