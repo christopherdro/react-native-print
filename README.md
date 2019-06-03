@@ -171,5 +171,5 @@ const styles = StyleSheet.create({
 ## selectPrinter(options: Object)
 | Param | Type | Note |
 |---|---|---|
-| `x` | `string` | The x position of the popup dialog on iPad
-| `y` | `string` | The y position of the popup dialog on iPad
+| `x` | `string` | **iPad Only:** The x position of the popup dialog
+| `y` | `string` | **iPad Only:** The y position of the popup dialog
