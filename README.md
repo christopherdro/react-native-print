@@ -168,5 +168,8 @@ const styles = StyleSheet.create({
 | `isLandscape` | `bool` | Landscape print; default value is false
 
 
-## selectPrinter()
-**iOS Only:** Prompt UI for user to select printer for silent printing
+## selectPrinter(options: Object)
+| Param | Type | Note |
+|---|---|---|
+| `x` | `string` | The x position of the popup dialog on iPad
+| `y` | `string` | The y position of the popup dialog on iPad
