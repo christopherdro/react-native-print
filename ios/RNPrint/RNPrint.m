@@ -17,13 +17,17 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(print:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
-    
+
     if (options[@"filePath"]){
         _filePath = [RCTConvert NSString:options[@"filePath"]];
+    } else {
+        _filePath = nil;
     }
     
     if (options[@"html"]){
         _htmlString = [RCTConvert NSString:options[@"html"]];
+    } else {
+        _htmlString = nil;
     }
     
     if (options[@"printerURL"]){
