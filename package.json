@@ -1,6 +1,6 @@
 {
   "name": "react-native-print",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Print documents with React Native",
   "main": "index.js",
   "keywords": [
