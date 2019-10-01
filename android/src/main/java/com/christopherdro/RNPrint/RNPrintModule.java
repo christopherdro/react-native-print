@@ -102,12 +102,12 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                                     @Override
                                     public void onFinish() {
                                         mWrappedInstance.onFinish();
+                                        promise.resolve(jobName);
                                     }
                                 };
                                 // Pass in the ViewView's document adapter.
                                 printManager.print(jobName, adapter, null);
                                 mWebView = null;
-                                promise.resolve(jobName);
                             }
                         });
 
@@ -168,13 +168,17 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
 
                         callback.onLayoutFinished(pdi, true);
                     }
+
+                    @Override
+                    public void onFinish() {
+                        promise.resolve(jobName);
+                    }
                 };
 
                 PrintAttributes printAttributes = new PrintAttributes.Builder()
                         .setMediaSize(isLandscape?PrintAttributes.MediaSize.UNKNOWN_LANDSCAPE:PrintAttributes.MediaSize.UNKNOWN_PORTRAIT)
                         .build();
                 printManager.print(jobName, pda, printAttributes);
-                promise.resolve(jobName);
 
             } catch (Exception e) {
                 promise.reject(getName(), e);
