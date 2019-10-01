@@ -70,10 +70,14 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
     
     if (options[@"filePath"]){
         _filePath = [RCTConvert NSString:options[@"filePath"]];
+    } else {
+        _filePath = nil;
     }
     
     if (options[@"html"]){
         _htmlString = [RCTConvert NSString:options[@"html"]];
+    } else {
+        _htmlString = nil;
     }
     
     if (options[@"printerURL"]){
@@ -109,8 +113,8 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
     }
 }
 
-
-RCT_EXPORT_METHOD(selectPrinter:(RCTPromiseResolveBlock)resolve
+RCT_EXPORT_METHOD(selectPrinter:(NSDictionary *)options
+                  resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
     UIPrinterPickerController *printPicker = [UIPrinterPickerController printerPickerControllerWithInitiallySelectedPrinter: _pickedPrinter];
@@ -137,7 +141,15 @@ RCT_EXPORT_METHOD(selectPrinter:(RCTPromiseResolveBlock)resolve
     
     if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) { // iPad
         UIView *view = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
-        [printPicker presentFromRect:view.frame inView:view animated:YES completionHandler:completionHandler];
+        CGFloat _x = 0;
+        CGFloat _y = 0;
+        if (options[@"x"]){
+            _x = [RCTConvert CGFloat:options[@"x"]];
+        }
+        if (options[@"y"]){
+            _y = [RCTConvert CGFloat:options[@"y"]];
+        }
+        [printPicker presentFromRect:CGRectMake(_x, _y, 0, 0) inView:view animated:YES completionHandler:completionHandler];
     } else { // iPhone
         [printPicker presentAnimated:YES completionHandler:completionHandler];
     }
