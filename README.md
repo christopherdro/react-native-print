@@ -111,7 +111,12 @@ export default class RNPrintExample extends Component {
       base64: true,
     })
 
-    await RNPrint.print({ uri: results.uri })
+    await RNPrint.print({ uri: results.filePath })
+  }
+
+  async printBase64PDF() {
+    const data = 'JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC9Qcm9kdWNlc...'
+    await RNPrint.print({ uri: `data:application/pdf;base64,${data}` })
   }
 
   async printRemotePDF() {
@@ -141,6 +146,7 @@ export default class RNPrintExample extends Component {
         <Button onPress={this.printHTML} title="Print HTML" />
         <Button onPress={this.printPDF} title="Print PDF" />
         <Button onPress={this.printRemotePDF} title="Print Remote PDF" />
+        <Button onPress={this.printBase64PDF} title="Print Base64 PDF" />
       </View>
     );
   }
@@ -163,6 +169,7 @@ const styles = StyleSheet.create({
 | Param | Type | Note |
 |---|---|---|
 | `html` | `string` |  HTML string to print
+| `uri` | `string` |  URI of a PDF file to print. Remote, local, or base64 data URI starting with `data:application/pdf;base64,`. This only supports PDF, not other types of documents (e.g. images).
 | `fileName` | `string` | Custom Filename excluding .pdf extension or remote file url NOTE: iOS only supports https protocols
 | `printerURL` | `string` | **iOS Only:** URL returned from `selectPrinterMethod()`
 | `isLandscape` | `bool` | Landscape print; default value is false
