@@ -1,1 +1,8 @@
 example
+
+# JetBrains
+.idea
+.project
+.settings
+.idea/*
+*.iml

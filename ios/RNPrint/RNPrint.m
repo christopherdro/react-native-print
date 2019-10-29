@@ -14,45 +14,10 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(print:(NSDictionary *)options
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject) {
-    
-    if (options[@"filePath"]){
-        _filePath = [RCTConvert NSString:options[@"filePath"]];
-    }
-    
-    if (options[@"html"]){
-        _htmlString = [RCTConvert NSString:options[@"html"]];
-    }
-    
-    if (options[@"printerURL"]){
-        _printerURL = [NSURL URLWithString:[RCTConvert NSString:options[@"printerURL"]]];
-        _pickedPrinter = [UIPrinter printerWithURL:_printerURL];
-    }
-    
-    if(options[@"isLandscape"]) {
-        _isLandscape = [[RCTConvert NSNumber:options[@"isLandscape"]] boolValue];
-    }
-    
-    if ((_filePath && _htmlString) || (_filePath == nil && _htmlString == nil)) {
-        reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Must provide either `html` or `filePath`. Both are either missing or passed together"));
-    }
-    
-    NSData *printData;
-    BOOL isValidURL = NO;
-    NSURL *candidateURL = [NSURL URLWithString: _filePath];
-    if (candidateURL && candidateURL.scheme && candidateURL.host)
-        isValidURL = YES;
-    
-    if (isValidURL) {
-        // TODO: This needs updated to use NSURLSession dataTaskWithURL:completionHandler:
-        printData = [NSData dataWithContentsOfURL:candidateURL];
-    } else {
-        printData = [NSData dataWithContentsOfFile: _filePath];
-    }
-    
-    if(!_htmlString && ![UIPrintInteractionController canPrintData:printData]) {
+-(void)launchPrint:(NSData *) data
+        resolver:(RCTPromiseResolveBlock)resolve
+        rejecter:(RCTPromiseRejectBlock)reject {
+    if(!_htmlString && ![UIPrintInteractionController canPrintData:data]) {
         reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Unable to print this filePath"));
         return;
     }
@@ -75,7 +40,7 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
         UIMarkupTextPrintFormatter *formatter = [[UIMarkupTextPrintFormatter alloc] initWithMarkupText:_htmlString];
         printInteractionController.printFormatter = formatter;
     } else {
-        printInteractionController.printingItem = printData;
+        printInteractionController.printingItem = data;
     }
     
     // Completion handler
@@ -99,6 +64,54 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
     }
 }
 
+RCT_EXPORT_METHOD(print:(NSDictionary *)options
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    
+    if (options[@"filePath"]){
+        _filePath = [RCTConvert NSString:options[@"filePath"]];
+    } else {
+        _filePath = nil;
+    }
+    
+    if (options[@"html"]){
+        _htmlString = [RCTConvert NSString:options[@"html"]];
+    } else {
+        _htmlString = nil;
+    }
+    
+    if (options[@"printerURL"]){
+        _printerURL = [NSURL URLWithString:[RCTConvert NSString:options[@"printerURL"]]];
+        _pickedPrinter = [UIPrinter printerWithURL:_printerURL];
+    }
+    
+    if(options[@"isLandscape"]) {
+        _isLandscape = [[RCTConvert NSNumber:options[@"isLandscape"]] boolValue];
+    }
+    
+    if ((_filePath && _htmlString) || (_filePath == nil && _htmlString == nil)) {
+        reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Must provide either `html` or `filePath`. Both are either missing or passed together"));
+    }
+    
+    __block NSData *printData;
+    BOOL isValidURL = NO;
+    NSURL *candidateURL = [NSURL URLWithString: _filePath];
+    if (candidateURL && candidateURL.scheme && candidateURL.host)
+        isValidURL = YES;
+    
+    if (isValidURL) {
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLSessionDataTask *dataTask = [session dataTaskWithURL:[NSURL URLWithString:_filePath] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self launchPrint:data resolver:resolve rejecter:reject];
+            });
+        }];
+        [dataTask resume];
+    } else {
+        printData = [NSData dataWithContentsOfFile: _filePath];
+        [self launchPrint:printData resolver:resolve rejecter:reject];
+    }
+}
 
 RCT_EXPORT_METHOD(selectPrinter:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
