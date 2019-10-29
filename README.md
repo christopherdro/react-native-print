@@ -114,13 +114,13 @@ export default class RNPrintExample extends Component {
     await RNPrint.print({ uri: results.filePath })
   }
 
+  async printRemotePDF() {
+    await RNPrint.print({ uri: 'https://graduateland.com/api/v2/users/jesper/cv' })
+  }
+
   async printBase64PDF() {
     const data = 'JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC9Qcm9kdWNlc...'
     await RNPrint.print({ uri: `data:application/pdf;base64,${data}` })
-  }
-
-  async printRemotePDF() {
-    await RNPrint.print({ uri: 'https://graduateland.com/api/v2/users/jesper/cv' })
   }
 
   customOptions = () => {
