@@ -35,7 +35,7 @@ import java.net.URL;
 public class RNPrintModule extends ReactContextBaseJavaModule {
 
     ReactApplicationContext reactContext;
-    final String jobName = "Document";
+    final String defaultJobName = "Document";
 
 
     public RNPrintModule(ReactApplicationContext reactContext) {
@@ -56,6 +56,7 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
         final String html = options.hasKey("html") ? options.getString("html") : null;
         final String filePath = options.hasKey("filePath") ? options.getString("filePath") : null;
         final boolean isLandscape = options.hasKey("isLandscape") ? options.getBoolean("isLandscape") : false;
+        final String jobName = options.hasKey("jobName") ? options.getString("jobName") : defaultJobName;
 
         if ((html == null && filePath == null) || (html != null && filePath != null)) {
             promise.reject(getName(), "Must provide either `html` or `filePath`.  Both are either missing or passed together");
