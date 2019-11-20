@@ -12,6 +12,7 @@ import android.print.PrintManager;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.util.Base64;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -20,6 +21,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.UiThreadUtil;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.FileInputStream;
@@ -130,9 +132,7 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                     @Override
                     public void onWrite(PageRange[] pages, final ParcelFileDescriptor destination, CancellationSignal cancellationSignal, final WriteResultCallback callback){
                         try {
-                            boolean isUrl = URLUtil.isValidUrl(uri) || URLUtil.isDataUrl(uri);
-
-                            if (isUrl) {
+                            if (URLUtil.isValidUrl(uri)) {
                                 new Thread(new Runnable() {
                                     public void run() {
                                         try {
@@ -143,6 +143,9 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                                         }
                                     }
                                 }).start();
+                            } else if (URLUtil.isDataUrl(uri)) {
+                                InputStream input = decodeDataURI(uri);
+                                loadAndClose(destination, callback, input);
                             } else {
                                 InputStream input = new FileInputStream(uri);
                                 loadAndClose(destination, callback, input);
@@ -206,6 +209,15 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private InputStream decodeDataURI(String uri) {
+        int base64Index = uri.indexOf(";base64,");
+        String plainBase64 = uri.substring(base64Index + 8);
+        byte[] byteArray = Base64.decode(plainBase64, Base64.DEFAULT);
+
+        return new ByteArrayInputStream(byteArray);
     }
 
 }
