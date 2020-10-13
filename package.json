@@ -16,7 +16,8 @@
 		"url": "github:christopherdro/react-native-print"
 	},
 	"peerDependencies": {
-		"react-native": ">=0.8.0 || 0.8.0-rc || 0.8.0-rc.2 || 0.9.0-rc || 0.10.1"
+		"react-native": ">=0.8.0 || 0.8.0-rc || 0.8.0-rc.2 || 0.9.0-rc || 0.10.1",
+		"react-native-windows": ">=0.62"
 	},
 	"author": "Christopher Dro <casheghian@gmail.com> (http://chris.si)",
 	"license": "MIT"
