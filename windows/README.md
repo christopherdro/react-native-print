@@ -16,6 +16,38 @@ react-native-print supports autolinking. Just call: `npm i react-native-print --
 7. In app `pch.h` add `#include "winrt/RNPrint.h"`
 8. In `App.cpp` add `PackageProviders().Append(winrt::RNPrint::ReactPackageProvider());` before `InitializeComponent();`
 
+## Windows print canvas
+
+On Windows, `react-native-print` needs an element in the visual tree to add the printable pages to.
+It will look for a XAML `Canvas` named `RNPrintCanvas` and use it.
+This needs to be added to the XAML tree of the screens where `react-native-print` is used.
+
+As an example, in `windows/myapp/MainPage.xaml` from the `react-native-windows` app template this can be done by adding a XAML `Grid` with an invisible `Canvas` alongside the `ReactRootView`. Change `windows/myapp/MainPage.xaml` from:
+```xaml
+<Page
+  ...
+  >
+  <react:ReactRootView
+    x:Name="ReactRootView"
+    ...
+  />
+</Page>
+```
+to
+```xaml
+<Page
+  ...
+  >
+  <Grid>
+    <Canvas x:Name="RNPrintCanvas" Opacity="0" />
+    <react:ReactRootView
+      x:Name="ReactRootView"
+      ...
+    />
+  </Grid>
+</Page>
+```
+
 ## Module development
 
 If you want to contribute to this module Windows implementation, first you must install the [Windows Development Dependencies](https://microsoft.github.io/react-native-windows/docs/rnw-dependencies).
