@@ -6,6 +6,7 @@
 #include <functional>
 #include <sstream>
 #include <mutex>
+#include <string_view>
 
 #include "JSValue.h"
 
@@ -37,13 +38,13 @@ namespace winrt::RNPrint
   REACT_MODULE(RNPrint);
   struct RNPrint
   {
-    const std::string Name = "RNPrint";
+    inline static constexpr std::string_view Name = "RNPrint";
 
     // Default name for the print job.
-    inline static const std::string defaultJobName = "Document";
+    inline static constexpr std::string_view defaultJobName = "Document";
 
     // Name for the XAML Canvas to add preview folders to.
-    inline static const std::string RNPrintCanvasName = "RNPrintCanvas";
+    inline static constexpr std::string_view RNPrintCanvasName = "RNPrintCanvas";
 
     // These are needed between print PDF callbacks, so we place them in the struct.
     ReactContext reactContext = nullptr;
@@ -68,7 +69,7 @@ namespace winrt::RNPrint
     // Searches for the RNPrintCanvas element in the visual tree.
     Canvas searchForPrintCanvas(xaml::DependencyObject startNode)
     {
-      int count = winrt::Windows::UI::Xaml::Media::VisualTreeHelper::GetChildrenCount(startNode);
+      const int count = winrt::Windows::UI::Xaml::Media::VisualTreeHelper::GetChildrenCount(startNode);
       Canvas result = nullptr;
       for (int i = 0; i < count; i++)
       {
@@ -84,7 +85,10 @@ namespace winrt::RNPrint
         } else
         {
           result = searchForPrintCanvas(current);
-          if (result) break;
+          if (result)
+          {
+            break;
+          }
         }
       }
       return result;
@@ -100,18 +104,22 @@ namespace winrt::RNPrint
             std::lock_guard<std::mutex> guard(printSync);
             servingPrintRequest = false;
             if (printToken)
+            {
               printMan.PrintTaskRequested(printToken);
+            }
             printToken = {};
             pageCollection.clear();
             if (printCanvas)
+            {
               printCanvas.Children().Clear();
+            }
           }
         }
       );
     }
 
     // Generates a XAML page asynchronously.
-    concurrency::task<std::optional<xaml::UIElement> > GeneratePageAsync(PdfDocument pdfDocument, int pageNumber, PrintPageDescription pageDescription)
+    concurrency::task<std::optional<xaml::UIElement>> GeneratePageAsync(PdfDocument pdfDocument, int pageNumber, PrintPageDescription pageDescription)
     {
       Image pageImage;
       PdfPage pdfPage = pdfDocument.GetPage(pageNumber - 1);
@@ -122,10 +130,10 @@ namespace winrt::RNPrint
       page.Width(pageDescription.PageSize.Width);
       page.Height(pageDescription.PageSize.Height);
 
-      float leftMargin = pageDescription.ImageableRect.X;
-      float topMargin = pageDescription.ImageableRect.Y;
-      float printableWidth = pageDescription.ImageableRect.Width;
-      float printableHeight = pageDescription.ImageableRect.Height;
+      const float leftMargin = pageDescription.ImageableRect.X;
+      const float topMargin = pageDescription.ImageableRect.Y;
+      const float printableWidth = pageDescription.ImageableRect.Width;
+      const float printableHeight = pageDescription.ImageableRect.Height;
 
       Canvas printableAreaCanvas;
       printableAreaCanvas.Width(printableWidth);
@@ -136,7 +144,7 @@ namespace winrt::RNPrint
       float pdfContentHeight = pdfContentDimensions.Height;
 
       //Scale to Fit logic
-      float scale = min(printableHeight / pdfContentHeight, printableWidth / pdfContentWidth);
+      const float scale = min(printableHeight / pdfContentHeight, printableWidth / pdfContentWidth);
       pdfContentWidth *= scale;
       pdfContentHeight *= scale;
       Canvas::SetLeft(printableAreaCanvas, (double)leftMargin + (printableWidth - pdfContentWidth) / 2);
@@ -162,8 +170,7 @@ namespace winrt::RNPrint
             });
         }).then([=]() -> std::optional<xaml::UIElement>
           {
-            std::optional<xaml::UIElement> result = page;
-            return result;
+            return page;
           });
     }
 
@@ -239,7 +246,7 @@ namespace winrt::RNPrint
             [=](auto const& sender, GetPreviewPageEventArgs const& args) -> void
             {
               auto printDocArg = sender.as<PrintDocument>();
-              int pageNumber = args.PageNumber();
+              const int pageNumber = args.PageNumber();
               GeneratePageAsync(pdfDocument, pageNumber, printPageDescr).then([=](std::optional<xaml::UIElement> generatedPage)
                 {
                   reactContext.UIDispatcher().Post([=]()
@@ -360,11 +367,15 @@ namespace winrt::RNPrint
       RNPrintOptions printOptions;
 
       if (options.find("html") != options.end())
+      {
         printOptions.html = options["html"].AsString();
+      }
 
       std::optional<std::string> filePath = std::nullopt;
       if (options.find("filePath") != options.end())
+      {
         printOptions.filePath = options["filePath"].AsString();
+      }
 
       printOptions.isLandscape = (options.find("isLandscape") != options.end() ? options["isLandscape"].AsBoolean() : false);
       printOptions.jobName = (options.find("jobName") != options.end() ? options["jobName"].AsString() : defaultJobName);
@@ -372,8 +383,24 @@ namespace winrt::RNPrint
       xaml::FrameworkElement root{ nullptr };
 
       auto window = xaml::Window::Current();
-      root = window.Content().as<xaml::FrameworkElement>();
-      printCanvas = searchForPrintCanvas(root);
+
+      if (window != nullptr)
+      {
+        root = window.Content().as<xaml::FrameworkElement>();
+        printCanvas = searchForPrintCanvas(root);
+      } else
+      {
+        if (auto xamlRoot = React::XamlUIService::GetXamlRoot(reactContext.Properties().Handle()))
+        {
+          root = xamlRoot.Content().as<xaml::FrameworkElement>();
+        }
+      }
+
+      if (!root)
+      {
+        promise.Reject("A valid XAML root was not found.");
+        return;
+      }
 
       if (!printCanvas)
       {
@@ -390,7 +417,7 @@ namespace winrt::RNPrint
           {
             cleanUp();
             std::stringstream errorCode;
-            errorCode << "0x" << std::hex << action.ErrorCode() << std::endl;
+            errorCode << "0x" << std::hex << action.ErrorCode() << std::dec << std::endl;
 
             auto error = winrt::Microsoft::ReactNative::ReactError();
             error.Message = "HRESULT " + errorCode.str() + ": " + std::system_category().message(action.ErrorCode());
