@@ -143,7 +143,7 @@ namespace winrt::RNPrint
 
       if (isValidURL)
       {
-        // Shoud be valid URL.
+        // Should be a valid URL.
         auto httpClient = HttpClient();
         auto httpResponseMessage = co_await httpClient.GetAsync(uri);
         auto memoryStream = InMemoryRandomAccessStream();
