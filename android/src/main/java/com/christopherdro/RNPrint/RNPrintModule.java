@@ -1,6 +1,7 @@
 package com.christopherdro.RNPrint;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.ParcelFileDescriptor;
@@ -13,12 +14,17 @@ import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.annotation.RequiresApi;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.UiThreadUtil;
+import com.facebook.react.modules.network.CookieJarContainer;
+import com.facebook.react.modules.network.ForwardingCookieHandler;
+import com.facebook.react.modules.network.OkHttpClientProvider;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -26,8 +32,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 
+import okhttp3.JavaNetCookieJar;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * NativeModule that allows JS to open emails sending apps chooser.
@@ -136,11 +145,26 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                             if (isUrl) {
                                 new Thread(new Runnable() {
                                     public void run() {
+                                        CookieJarContainer cookieJarContainer = null;
+
                                         try {
-                                            InputStream input = new URL(filePath).openStream();
-                                            loadAndClose(destination, callback, input);
+                                            OkHttpClient client = OkHttpClientProvider.createClient();
+                                            ForwardingCookieHandler cookieHandler = new ForwardingCookieHandler(reactContext);
+                                            cookieJarContainer = (CookieJarContainer) client.cookieJar();
+                                            cookieJarContainer.setCookieJar(new JavaNetCookieJar(cookieHandler));
+
+                                            Request.Builder requestBuilder = new Request.Builder().url(filePath);
+                                            Response res = client.newCall(requestBuilder.build()).execute();
+
+                                            loadAndClose(destination, callback, res.body().byteStream());
+
+                                            res.close();
                                         } catch (Exception e) {
                                             e.printStackTrace();
+                                        } finally {
+                                            if (cookieJarContainer != null) {
+                                                cookieJarContainer.removeCookieJar();
+                                            }
                                         }
                                     }
                                 }).start();
