@@ -3,13 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-	"android": "react-native run-android",
-	"appium": "appium",
+    "android": "react-native run-android",
+    "appium": "appium",
     "ios": "react-native run-ios",
     "windows": "react-native run-windows",
     "start": "react-native start",
-	"test": "jest",
-	"test:windows": "yarn jest --setupFiles=./jest-setups/jest.setup.windows.js",
+    "test": "jest",
+    "test:windows": "yarn jest --setupFiles=./jest-setups/jest.setup.windows.js",
     "lint": "eslint .",
     "postinstall": "node ../scripts/examples_postinstall.js node_modules/react-native-print/"
   },
@@ -23,14 +23,14 @@
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/runtime": "^7.8.4",
-	"@react-native-community/eslint-config": "^1.1.0",
-	"appium": "^1.18.1",
+    "@react-native-community/eslint-config": "^1.1.0",
+    "appium": "^1.18.1",
     "babel-jest": "^25.1.0",
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
-	"react-test-renderer": "16.13.1",
-	"selenium-appium": "^0.0.15",
+    "react-test-renderer": "16.13.1",
+    "selenium-appium": "^0.0.15",
     "selenium-webdriver": "^4.0.0-alpha.7"
   },
   "jest": {

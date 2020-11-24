@@ -26,7 +26,7 @@ export default class RNPrintExample extends Component {
 
   // @NOTE iOS Only
   selectPrinter = async () => {
-    const selectedPrinter = await RNPrint.selectPrinter()
+    const selectedPrinter = await RNPrint.selectPrinter({})
     this.setState({ selectedPrinter })
   }
 
