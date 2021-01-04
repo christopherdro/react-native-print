@@ -125,12 +125,14 @@ namespace winrt::RNPrint
 
     if ((!capturedOptions.html && !capturedOptions.filePath) || (capturedOptions.html && capturedOptions.filePath))
     {
+      cleanUp();
       capturedPromise.Reject("Must provide either 'html' or 'filePath'. Both are either missing or passed together.");
       co_return;
     }
 
     if (capturedOptions.html)
     {
+      cleanUp();
       capturedPromise.Reject("Printing HTML not supported");
       co_return;
     } else
@@ -158,6 +160,7 @@ namespace winrt::RNPrint
       }
       if (pdfDocument == nullptr)
       {
+        cleanUp();
         capturedPromise.Reject("Couldn't open the PDF file.");
         co_return;
       } else
