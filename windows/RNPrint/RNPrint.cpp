@@ -329,7 +329,6 @@ namespace winrt::RNPrint
     if (window != nullptr)
     {
       root = window.Content().as<xaml::FrameworkElement>();
-      printCanvas = searchForPrintCanvas(root);
     } else
     {
       if (auto xamlRoot = React::XamlUIService::GetXamlRoot(reactContext.Properties().Handle()))
@@ -340,12 +339,16 @@ namespace winrt::RNPrint
 
     if (!root)
     {
+      cleanUp();
       promise.Reject("A valid XAML root was not found.");
       return;
     }
 
+    printCanvas = searchForPrintCanvas(root);
+
     if (!printCanvas)
     {
+      cleanUp();
       promise.Reject("The XAML Canvas named \"RNPrintCanvas\" was not found.");
       return;
     }
