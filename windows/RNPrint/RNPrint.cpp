@@ -125,12 +125,14 @@ namespace winrt::RNPrint
 
     if ((!capturedOptions.html && !capturedOptions.filePath) || (capturedOptions.html && capturedOptions.filePath))
     {
+      cleanUp();
       capturedPromise.Reject("Must provide either 'html' or 'filePath'. Both are either missing or passed together.");
       co_return;
     }
 
     if (capturedOptions.html)
     {
+      cleanUp();
       capturedPromise.Reject("Printing HTML not supported");
       co_return;
     } else
@@ -158,6 +160,7 @@ namespace winrt::RNPrint
       }
       if (pdfDocument == nullptr)
       {
+        cleanUp();
         capturedPromise.Reject("Couldn't open the PDF file.");
         co_return;
       } else
@@ -326,7 +329,6 @@ namespace winrt::RNPrint
     if (window != nullptr)
     {
       root = window.Content().as<xaml::FrameworkElement>();
-      printCanvas = searchForPrintCanvas(root);
     } else
     {
       if (auto xamlRoot = React::XamlUIService::GetXamlRoot(reactContext.Properties().Handle()))
@@ -337,12 +339,16 @@ namespace winrt::RNPrint
 
     if (!root)
     {
+      cleanUp();
       promise.Reject("A valid XAML root was not found.");
       return;
     }
 
+    printCanvas = searchForPrintCanvas(root);
+
     if (!printCanvas)
     {
+      cleanUp();
       promise.Reject("The XAML Canvas named \"RNPrintCanvas\" was not found.");
       return;
     }
