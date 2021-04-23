@@ -329,12 +329,12 @@ namespace winrt::RNPrint
 
         if (window != nullptr)
         {
-          root = window.Content().as<xaml::FrameworkElement>();
+          root = window.Content().try_as<xaml::FrameworkElement>();
         } else
         {
           if (auto xamlRoot = React::XamlUIService::GetXamlRoot(reactContext.Properties().Handle()))
           {
-            root = xamlRoot.Content().as<xaml::FrameworkElement>();
+            root = xamlRoot.Content().try_as<xaml::FrameworkElement>();
           }
         }
 
