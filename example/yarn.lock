@@ -8656,7 +8656,7 @@ react-native-html-to-pdf@0.8.0:
   integrity sha512-64Hx7JbX3sZ1iXgouuCI25/C6o8BHyTzOO3RzvLfw4O8VcdpB+wJ4d24iWRtKjeJmArsubN9+WMOebBxQaPzJw==
 
 react-native-print@../:
-  version "0.6.0"
+  version "0.7.0"
 
 react-native-windows@^0.63.0-0:
   version "0.63.5"
@@ -10133,9 +10133,9 @@ typedarray@^0.0.6:
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
 ua-parser-js@^0.7.18, ua-parser-js@^0.7.21:
-  version "0.7.22"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.22.tgz#960df60a5f911ea8f1c818f3747b99c6e177eae3"
-  integrity sha512-YUxzMjJ5T71w6a8WWVcMGM6YWOTX27rCoIQgLXiWaxqXSx9D7DNjiGWn1aJIRSQ5qr0xuhra77bSIh6voR/46Q==
+  version "0.7.28"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
+  integrity sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==
 
 uglify-es@^3.1.9:
   version "3.3.9"
