@@ -6,3 +6,6 @@ example/
 .settings
 .idea/*
 *.iml
+
+# Android build files
+android/build/
