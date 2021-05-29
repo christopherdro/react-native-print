@@ -321,53 +321,55 @@ namespace winrt::RNPrint
 
     printOptions.isLandscape = (options.find("isLandscape") != options.end() ? options["isLandscape"].AsBoolean() : false);
     printOptions.jobName = (options.find("jobName") != options.end() ? options["jobName"].AsString() : defaultJobName);
-
-    xaml::FrameworkElement root{ nullptr };
-
-    auto window = xaml::Window::Current();
-
-    if (window != nullptr)
-    {
-      root = window.Content().as<xaml::FrameworkElement>();
-    } else
-    {
-      if (auto xamlRoot = React::XamlUIService::GetXamlRoot(reactContext.Properties().Handle()))
+    reactContext.UIDispatcher().Post([=]()
       {
-        root = xamlRoot.Content().as<xaml::FrameworkElement>();
-      }
-    }
+        xaml::FrameworkElement root{ nullptr };
 
-    if (!root)
-    {
-      cleanUp();
-      promise.Reject("A valid XAML root was not found.");
-      return;
-    }
+        auto window = xaml::Window::Current();
 
-    printCanvas = searchForPrintCanvas(root);
+        if (window != nullptr)
+        {
+          root = window.Content().try_as<xaml::FrameworkElement>();
+        } else
+        {
+          if (auto xamlRoot = React::XamlUIService::GetXamlRoot(reactContext.Properties().Handle()))
+          {
+            root = xamlRoot.Content().try_as<xaml::FrameworkElement>();
+          }
+        }
 
-    if (!printCanvas)
-    {
-      cleanUp();
-      promise.Reject("The XAML Canvas named \"RNPrintCanvas\" was not found.");
-      return;
-    }
-
-    auto asyncOp = PrintAsyncHelper(printOptions, promise);
-    asyncOp.Completed([=](auto action, auto status)
-      {
-        // Here we handle any unhandled exceptions thrown during the
-        // asynchronous call by rejecting the promise with the error code
-        if (status == winrt::Windows::Foundation::AsyncStatus::Error)
+        if (!root)
         {
           cleanUp();
-          std::stringstream errorCode;
-          errorCode << "0x" << std::hex << action.ErrorCode() << std::dec << std::endl;
-
-          auto error = winrt::Microsoft::ReactNative::ReactError();
-          error.Message = "HRESULT " + errorCode.str() + ": " + std::system_category().message(action.ErrorCode());
-          promise.Reject(error);
+          promise.Reject("A valid XAML root was not found.");
+          return;
         }
+
+        printCanvas = searchForPrintCanvas(root);
+
+        if (!printCanvas)
+        {
+          cleanUp();
+          promise.Reject("The XAML Canvas named \"RNPrintCanvas\" was not found.");
+          return;
+        }
+
+        auto asyncOp = PrintAsyncHelper(printOptions, promise);
+        asyncOp.Completed([=](auto action, auto status)
+          {
+            // Here we handle any unhandled exceptions thrown during the
+            // asynchronous call by rejecting the promise with the error code
+            if (status == winrt::Windows::Foundation::AsyncStatus::Error)
+            {
+              cleanUp();
+              std::stringstream errorCode;
+              errorCode << "0x" << std::hex << action.ErrorCode() << std::dec << std::endl;
+
+              auto error = winrt::Microsoft::ReactNative::ReactError();
+              error.Message = "HRESULT " + errorCode.str() + ": " + std::system_category().message(action.ErrorCode());
+              promise.Reject(error);
+            }
+          });
       });
   }
 }
