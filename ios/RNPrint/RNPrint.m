@@ -55,7 +55,13 @@ RCT_EXPORT_MODULE();
     };
     
     if (_pickedPrinter) {
-        [printInteractionController printToPrinter:_pickedPrinter completionHandler:completionHandler];
+      [_pickedPrinter contactPrinter:^(BOOL available) {
+        if (available) {
+          [printInteractionController printToPrinter:self->_pickedPrinter completionHandler:completionHandler];
+        } else {
+          reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Selected printer is unavailable"));
+       }
+      }];
     } else if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) { // iPad
         UIView *view = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
         [printInteractionController presentFromRect:view.frame inView:view animated:YES completionHandler:completionHandler];
