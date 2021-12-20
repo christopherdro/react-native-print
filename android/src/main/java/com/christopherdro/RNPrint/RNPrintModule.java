@@ -66,6 +66,7 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
         final String filePath = options.hasKey("filePath") ? options.getString("filePath") : null;
         final boolean isLandscape = options.hasKey("isLandscape") ? options.getBoolean("isLandscape") : false;
         final String jobName = options.hasKey("jobName") ? options.getString("jobName") : defaultJobName;
+        final String baseUrl = options.hasKey("baseUrl") ? options.getString("baseUrl") : "";
 
         if ((html == null && filePath == null) || (html != null && filePath != null)) {
             promise.reject(getName(), "Must provide either `html` or `filePath`.  Both are either missing or passed together");
@@ -121,7 +122,7 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                             }
                         });
 
-                        webView.loadDataWithBaseURL(null, html, "text/HTML", "UTF-8", null);
+                        webView.loadDataWithBaseURL(baseUrl, html, "text/HTML", "UTF-8", null);
 
                         // Keep a reference to WebView object until you pass the PrintDocumentAdapter
                         // to the PrintManager
