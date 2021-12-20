@@ -29,7 +29,7 @@ RCT_EXPORT_MODULE();
     UIPrintInfo *printInfo = [UIPrintInfo printInfo];
     
     printInfo.outputType = UIPrintInfoOutputGeneral;
-    printInfo.jobName = [_filePath lastPathComponent];
+    printInfo.jobName = _jobName;
     printInfo.duplex = UIPrintInfoDuplexLongEdge;
     printInfo.orientation = _isLandscape? UIPrintInfoOrientationLandscape: UIPrintInfoOrientationPortrait;
     
@@ -93,6 +93,12 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
     
     if(options[@"isLandscape"]) {
         _isLandscape = [[RCTConvert NSNumber:options[@"isLandscape"]] boolValue];
+    }
+
+    if(options[@"jobName"]) {
+        _jobName = [RCTConvert NSString:options[@"jobName"]];
+    } else {
+        _jobName = @"Document";
     }
     
     if ((_filePath && _htmlString) || (_filePath == nil && _htmlString == nil)) {
