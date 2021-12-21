@@ -66,7 +66,7 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
         final String filePath = options.hasKey("filePath") ? options.getString("filePath") : null;
         final boolean isLandscape = options.hasKey("isLandscape") ? options.getBoolean("isLandscape") : false;
         final String jobName = options.hasKey("jobName") ? options.getString("jobName") : defaultJobName;
-        final String baseUrl = options.hasKey("baseUrl") ? options.getString("baseUrl") : "";
+        final String baseUrl = options.hasKey("baseUrl") ? options.getString("baseUrl") : null;
 
         if ((html == null && filePath == null) || (html != null && filePath != null)) {
             promise.reject(getName(), "Must provide either `html` or `filePath`.  Both are either missing or passed together");
