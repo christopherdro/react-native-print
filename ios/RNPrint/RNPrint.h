@@ -9,6 +9,7 @@
 @property UIPrinter *pickedPrinter;
 @property NSString *filePath;
 @property NSString *htmlString;
+@property NSString *jobName;
 @property NSURL *printerURL;
 @property (nonatomic, assign) BOOL isLandscape;
 @end
