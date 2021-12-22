@@ -1,5 +1,7 @@
 name: Windows CI
-on: [pull_request]
+on:
+  repository_dispatch:
+    types: [windows-ci]
 
 jobs:
   run-windows-tests:

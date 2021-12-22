@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
 | `printerURL` | `string` | **iOS Only:** URL returned from `selectPrinterMethod()`
 | `isLandscape` | `bool` | Landscape print; default value is false
 | `jobName` | `string` | **iOS and Android Only:** Name of printing job; default value is "Document"
+| `baseUrl` | `string` | **Android Only:** Used to resolve relative links in the HTML. Also used for the origin header when applying same origin policy (CORS). Reference [Android WebView Docs](https://developer.android.com/reference/android/webkit/WebView#loadDataWithBaseURL(java.lang.String,%20java.lang.String,%20java.lang.String,%20java.lang.String,%20java.lang.String))
 
 
 ## selectPrinter(options: Object)
