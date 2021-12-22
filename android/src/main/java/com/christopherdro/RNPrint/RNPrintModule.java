@@ -93,7 +93,7 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                                 // Create a wrapper PrintDocumentAdapter to clean up when done.
                                 PrintDocumentAdapter adapter = new PrintDocumentAdapter() {
                                     private final PrintDocumentAdapter mWrappedInstance =
-                                    mWebView.createPrintDocumentAdapter();
+                                    mWebView.createPrintDocumentAdapter(jobName);
                                     @Override
                                     public void onStart() {
                                         mWrappedInstance.onStart();
