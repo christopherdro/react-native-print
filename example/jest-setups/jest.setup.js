@@ -2,7 +2,7 @@ import {windowsAppDriverCapabilities} from 'selenium-appium';
 
 switch (platform) {
   case 'windows':
-    const webViewWindowsAppId = 'RNPrintExample_tzd3rs38zxb7w!App';
+    const webViewWindowsAppId = 'RNPrintExample_dxa658cp5a26j!App';
     module.exports = {
       capabilites: windowsAppDriverCapabilities(webViewWindowsAppId),
     };
