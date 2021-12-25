@@ -16,8 +16,7 @@
     <WindowsTargetPlatformVersion Condition=" '$(WindowsTargetPlatformVersion)' == '' ">10.0.18362.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.16299.0</WindowsTargetPlatformMinVersion>
     <PackageCertificateKeyFile>RNPrintExample_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>5CEF980FF40B91E94438733E2DDC93B492317478</PackageCertificateThumbprint>
-    <PackageCertificatePassword>password</PackageCertificatePassword>
+    <PackageCertificateThumbprint>86264C68152B75CB5D607C732148412F3D0A8E6E</PackageCertificateThumbprint>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="ReactNativeWindowsProps">

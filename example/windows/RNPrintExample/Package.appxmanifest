@@ -8,14 +8,14 @@
 
   <Identity
     Name="RNPrintExample"
-    Publisher="CN=Jaime"
+    Publisher="CN=FARID"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="76d1c89a-0e1c-4a97-8066-acec18c77419" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>RNPrintExample</DisplayName>
-    <PublisherDisplayName>Jaime</PublisherDisplayName>
+    <PublisherDisplayName>FARID</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
