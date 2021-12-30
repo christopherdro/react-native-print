@@ -216,7 +216,8 @@ const styles = StyleSheet.create({
 | `printerURL` | `string` | **iOS Only:** URL returned from `selectPrinterMethod()`
 | `isLandscape` | `bool` | Landscape print; default value is false
 | `jobName` | `string` | **iOS and Android Only:** Name of printing job; default value is "Document"
-| `baseUrl` | `string` | **Android Only:** Used to resolve relative links in the HTML. Also used for the origin header when applying same origin policy (CORS). Reference [Android WebView Docs](https://developer.android.com/reference/android/webkit/WebView#loadDataWithBaseURL(java.lang.String,%20java.lang.String,%20java.lang.String,%20java.lang.String,%20java.lang.String))
+| `baseUrl` | `string` | **iOS(only with useWebView) and Android Only:** Used to resolve relative links in the HTML. Also used for the origin header when applying same origin policy (CORS). Reference [iOS WebView Docs](https://developer.apple.com/documentation/webkit/wkwebview/1415004-loadhtmlstring), [Android WebView Docs](https://developer.android.com/reference/android/webkit/WebView#loadDataWithBaseURL(java.lang.String,%20java.lang.String,%20java.lang.String,%20java.lang.String,%20java.lang.String))
+| `useWebView` | `bool` | **iOS only:** Use WebView as print formatter. Android uses webview by default.
 
 
 ## selectPrinter(options: Object)
