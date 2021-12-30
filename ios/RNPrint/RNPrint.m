@@ -5,7 +5,13 @@
 #import <React/RCTConvert.h>
 #import <React/RCTUtils.h>
 
-@implementation RNPrint
+
+@implementation RNPrint {
+    RCTPromiseResolveBlock _resolve;
+    RCTPromiseRejectBlock _reject;
+    WKWebView *_webView;
+}
+
 
 - (dispatch_queue_t)methodQueue
 {
@@ -36,7 +42,9 @@ RCT_EXPORT_MODULE();
     printInteractionController.printInfo = printInfo;
     printInteractionController.showsPageRange = YES;
     
-    if (_htmlString) {
+    if (_useWebView) {
+        printInteractionController.printFormatter = _webView.viewPrintFormatter;
+    } else if (_htmlString) {
         UIMarkupTextPrintFormatter *formatter = [[UIMarkupTextPrintFormatter alloc] initWithMarkupText:_htmlString];
         printInteractionController.printFormatter = formatter;
     } else {
@@ -70,6 +78,35 @@ RCT_EXPORT_MODULE();
     }
 }
 
+-(void)loadPrinter {
+    __block NSData *printData;
+    BOOL isValidURL = NO;
+    NSURL *candidateURL = [NSURL URLWithString: _filePath];
+    if (candidateURL && candidateURL.scheme && candidateURL.host)
+        isValidURL = YES;
+    
+    if (isValidURL) {
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLSessionDataTask *dataTask = [session dataTaskWithURL:[NSURL URLWithString:_filePath] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self launchPrint:data resolver:_resolve rejecter:_reject];
+            });
+        }];
+        [dataTask resume];
+    } else {
+        printData = [NSData dataWithContentsOfFile: _filePath];
+        [self launchPrint:printData resolver:_resolve rejecter:_reject];
+    }
+}
+
+-(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    if (webView.isLoading) {
+        return;
+    }
+    
+    [self loadPrinter];
+}
+
 RCT_EXPORT_METHOD(print:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
@@ -100,29 +137,35 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
     } else {
         _jobName = @"Document";
     }
+
+    if (options[@"baseUrl"]) {
+        _baseUrl = [NSURL URLWithString:options[@"baseUrl"]];
+    }
+    
+    if (options[@"useWebView"]) {
+        _useWebView = [[RCTConvert NSNumber:options[@"useWebView"]] boolValue];
+    }
     
     if ((_filePath && _htmlString) || (_filePath == nil && _htmlString == nil)) {
         reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Must provide either `html` or `filePath`. Both are either missing or passed together"));
     }
     
-    __block NSData *printData;
-    BOOL isValidURL = NO;
-    NSURL *candidateURL = [NSURL URLWithString: _filePath];
-    if (candidateURL && candidateURL.scheme && candidateURL.host)
-        isValidURL = YES;
+    _resolve = resolve;
+    _reject = reject;
     
-    if (isValidURL) {
-        NSURLSession *session = [NSURLSession sharedSession];
-        NSURLSessionDataTask *dataTask = [session dataTaskWithURL:[NSURL URLWithString:_filePath] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self launchPrint:data resolver:resolve rejecter:reject];
-            });
-        }];
-        [dataTask resume];
-    } else {
-        printData = [NSData dataWithContentsOfFile: _filePath];
-        [self launchPrint:printData resolver:resolve rejecter:reject];
+    if (_useWebView) {
+        _webView = [[WKWebView alloc] initWithFrame:self.bounds];
+        _webView.navigationDelegate = self;
+        [self addSubview:_webView];
+        dispatch_async(dispatch_get_main_queue(), ^{
+                [_webView loadHTMLString:_htmlString baseURL:_baseUrl];
+        });
+        
+        return;
     }
+    
+    [self loadPrinter];
+    
 }
 
 RCT_EXPORT_METHOD(selectPrinter:(NSDictionary *)options

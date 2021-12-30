@@ -11,5 +11,7 @@
 @property NSString *htmlString;
 @property NSString *jobName;
 @property NSURL *printerURL;
+@property NSURL *baseUrl;
 @property (nonatomic, assign) BOOL isLandscape;
+@property (nonatomic, assign) BOOL useWebView;
 @end
