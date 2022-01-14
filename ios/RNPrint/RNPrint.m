@@ -42,7 +42,7 @@ RCT_EXPORT_MODULE();
     printInteractionController.printInfo = printInfo;
     printInteractionController.showsPageRange = YES;
     
-    if (_useWebView) {
+    if (_baseUrl) {
         printInteractionController.printFormatter = _webView.viewPrintFormatter;
     } else if (_htmlString) {
         UIMarkupTextPrintFormatter *formatter = [[UIMarkupTextPrintFormatter alloc] initWithMarkupText:_htmlString];
@@ -142,10 +142,6 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
         _baseUrl = [NSURL URLWithString:options[@"baseUrl"]];
     }
     
-    if (options[@"useWebView"]) {
-        _useWebView = [[RCTConvert NSNumber:options[@"useWebView"]] boolValue];
-    }
-    
     if ((_filePath && _htmlString) || (_filePath == nil && _htmlString == nil)) {
         reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Must provide either `html` or `filePath`. Both are either missing or passed together"));
     }
@@ -153,7 +149,7 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
     _resolve = resolve;
     _reject = reject;
     
-    if (_useWebView) {
+    if (_baseUrl) {
         _webView = [[WKWebView alloc] initWithFrame:self.bounds];
         _webView.navigationDelegate = self;
         [self addSubview:_webView];
