@@ -2,7 +2,7 @@ type PrintOptionsType = {
 	printerURL?: string;
 	isLandscape?: boolean;
 	jobName?: string;
-} & ({ html: string } | { filePath: string });
+} & ({ html: string } | { filePath: string, headers?: object });
 
 type SelectPrinterOptionsType = {
 	x: string;
