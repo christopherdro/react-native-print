@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
 |---|---|---|
 | `html` | `string` |  **iOS and Android Only:** HTML string to print
 | `filePath` | `string` | Local or remote file url NOTE: iOS only supports https protocols for remote
+| `headers` | `object` | **Android Only:** Object with additional headers, eg.: `{Authorization:"Bearer XXX"}`
 | `printerURL` | `string` | **iOS Only:** URL returned from `selectPrinterMethod()`
 | `isLandscape` | `bool` | Landscape print; default value is false
 | `jobName` | `string` | **iOS and Android Only:** Name of printing job; default value is "Document"
