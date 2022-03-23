@@ -20,6 +20,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.modules.network.CookieJarContainer;
@@ -155,6 +156,20 @@ public class RNPrintModule extends ReactContextBaseJavaModule {
                                             cookieJarContainer.setCookieJar(new JavaNetCookieJar(cookieHandler));
 
                                             Request.Builder requestBuilder = new Request.Builder().url(filePath);
+                                            
+                                            if (options.hasKey("headers")) {
+                                                ReadableMap headers = options.getMap("headers");
+                                                if (headers != null) {
+                                                    ReadableMapKeySetIterator iterator = headers.keySetIterator();
+                                                    if (iterator.hasNextKey()) {
+                                                        while (iterator.hasNextKey()) {
+                                                            String key = iterator.nextKey();
+                                                            requestBuilder.header(key, headers.getString(key));
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            
                                             Response res = client.newCall(requestBuilder.build()).execute();
 
                                             loadAndClose(destination, callback, res.body().byteStream());
