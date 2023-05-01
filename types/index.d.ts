@@ -5,8 +5,8 @@ type PrintOptionsType = {
 } & ({ html: string } | { filePath: string });
 
 type SelectPrinterOptionsType = {
-	x: string;
-	y: string;
+	x: number;
+	y: number;
 };
 
 export function print(options: PrintOptionsType): Promise<any>;
