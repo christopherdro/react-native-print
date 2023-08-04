@@ -9,6 +9,11 @@ type SelectPrinterOptionsType = {
 	y: string;
 };
 
+type SelectPrinterReturnType = {
+	name: string;
+	url: string;
+}
+
 export function print(options: PrintOptionsType): Promise<any>;
 
-export function selectPrinter(options: SelectPrinterOptionsType): Promise<any>;
+export function selectPrinter(options: SelectPrinterOptionsType): Promise<SelectPrinterReturnType>;
