@@ -63,7 +63,7 @@ RCT_EXPORT_MODULE();
        }
       }];
     } else if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) { // iPad
-        UIView *view = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
+        UIView *view = RCTKeyWindow().rootViewController.view;
         [printInteractionController presentFromRect:view.frame inView:view animated:YES completionHandler:completionHandler];
     } else { // iPhone
         [printInteractionController presentAnimated:YES completionHandler:completionHandler];
@@ -152,7 +152,7 @@ RCT_EXPORT_METHOD(selectPrinter:(NSDictionary *)options
     };
     
     if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) { // iPad
-        UIView *view = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
+        UIView *view = RCTKeyWindow().rootViewController.view;
         CGFloat _x = 0;
         CGFloat _y = 0;
         if (options[@"x"]){
@@ -170,11 +170,7 @@ RCT_EXPORT_METHOD(selectPrinter:(NSDictionary *)options
 #pragma mark - UIPrintInteractionControllerDelegate
 
 -(UIViewController*)printInteractionControllerParentViewController:(UIPrintInteractionController*)printInteractionController  {
-    UIViewController *result = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    while (result.presentedViewController) {
-        result = result.presentedViewController;
-    }
-    return result;
+    return RCTPresentedViewController();
 }
 
 -(void)printInteractionControllerWillDismissPrinterOptions:(UIPrintInteractionController*)printInteractionController {}
